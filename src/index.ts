@@ -34,6 +34,10 @@ class Ngcap extends Command {
       this.log(data.toString());
       this.launch.next();
     });
+    this.children.buildAngular.stderr?.on("data", (data) => {
+      this.log(hex("#9983f6").bold("***[(ERROR) BUILD ANGULAR]***"));
+      this.log(data.toString());
+    });
     this.launchSubscription = this.launch.pipe(debounceTime(500)).subscribe({
       next: () => {
         this.capSync(args.path);
@@ -60,6 +64,10 @@ class Ngcap extends Command {
     });
     this.children.capOpenElectron.stdout?.on("data", (d) =>{
       this.log(hex("#2dd36f").bold("***[CAPACITOR OPEN]***"));
+      this.log(d.toString());
+    });
+    this.children.capOpenElectron.stderr?.on("data", (d) =>{
+      this.log(hex("#2dd36f").bold("***[(ERROR) CAPACITOR OPEN]***"));
       this.log(d.toString());
     });
   }
